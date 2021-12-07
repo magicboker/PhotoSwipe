@@ -131,7 +131,7 @@ var _getItemAt,
 
 			item.imageAppended = true;
 			_setImageSize(item, img, (item === self.currItem && _renderMaxResolution) );
-			
+			item.appendedImage = img;
 			baseDiv.appendChild(img);
 
 			if(keepPlaceholder) {
@@ -151,6 +151,7 @@ var _getItemAt,
 		item.loading = true;
 		item.loaded = false;
 		var img = item.img = framework.createEl('pswp__img', 'img');
+		img.crossOrigin = "anonymous";
 		var onComplete = function() {
 			item.loading = false;
 			item.loaded = true;
@@ -371,7 +372,7 @@ _registerModule('Controller', {
 
 			_calculateItemSize(item, _viewportSize);
 			
-			if(item.src && !item.loadError && !item.loaded) {
+			if(item.src && !item.loadError && (!item.loaded || !item.appendedImage)) {
 
 				item.loadComplete = function(item) {
 
@@ -416,9 +417,10 @@ _registerModule('Controller', {
 					}
 
 					item.loadComplete = null;
-					item.img = null; // no need to store image element after it's added
+//					item.img = null; // no need to store image element after it's added
 
 					_shout('imageLoadComplete', index, item);
+					item.img = null; // no need to store image element after it's added
 				};
 
 				if(framework.features.transform) {
@@ -464,6 +466,7 @@ _registerModule('Controller', {
 			} else if(item.src && !item.loadError) {
 				// image object is created every time, due to bugs of image loading & delay when switching images
 				img = framework.createEl('pswp__img', 'img');
+				img.crossOrigin = "anonymous";
 				img.style.opacity = 1;
 				img.src = item.src;
 				_setImageSize(item, img);

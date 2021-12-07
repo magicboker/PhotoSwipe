@@ -1,0 +1,14 @@
+{
+    "env": {
+        "browser": true
+    },
+    "extends": "plugin:vue/essential",
+    "parserOptions": {
+        "sourceType": "module"
+    },
+    "plugins": [
+        "vue"
+    ],
+    "rules": {
+    }
+}
